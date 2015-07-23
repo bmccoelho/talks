@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Awesome Presentation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .title {
+        background: #5BBBE8;
+        color: #ffffff;
+      }
+      .whoami {
+        background: #326173;
+        color: #F5BE2C;
+      }
+      .rails {
+        background: #FC3E3F;
+        color: #FD9868;
+      }
+      .emberjs {
+        background: #26ADE4;
+        color: #D1E751;
+      }
+      .code {
+        background: #0B486B;
+        color: #79BD9A;
+      }
+      .questions {
+        background: #568A9E;
+        color: #F4C256;
+      }
+      /* Two-column layout */
+      .left-column {
+        background: #26ADE4;
+        color: #ffffff;
+        width: 20%;
+        height: 92%;
+        float: left;
+      }
+      .left-column h2:last-child, .left-column h3:last-child {
+        color: #D1E751;
+      }
+      .right-column {
+        width: 75%;
+        float: right;
+        padding-top: 1em;
+        color: #D1E751;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+name: title
+class: center, middle, title
+
+# notes.app
+# (a quick intro to ember.js)
+
+---
+name: Who am I
+class: right, middle, whoami
+
+# {{name}}
+
+### bruno coelho
+### github.com/bmccoelho
+### twitter.com/bmccoelho
+### software engineer at Seedrs
+### co-organizer of LXJS
+### climber, slackliner and proud dad
+
+???
+# * this is me in a nutshell
+# * before we can continue ...
+
+---
+name: rails
+class: center, middle, rails
+
+## FORGET EVERYTHING YOU KNOW ABOUT
+# RAILS!
+
+???
+# * inspired in smalltalk's MVC
+# * tries to be close to the Cocoa's MVC
+
+---
+name: emberjs
+class: center, emberjs
+
+.left-column[
+## ember.js
+]
+
+.right-column[
+  # ?
+]
+
+???
+# * How many of you know emberjs?
+# * How many of you have played with emberjs?
+
+---
+name: emberjs
+class: center, emberjs
+
+.left-column[
+## ember.js
+]
+
+.right-column[
+  # &nbsp;
+
+  # client side javascript
+  # MVC framework
+  # &nbsp;
+  # &nbsp;
+  # &nbsp;
+]
+
+???
+# ... with a Router
+
+---
+name: emberjs
+class: center, emberjs
+
+.left-column[
+## ember.js
+]
+
+.right-column[
+  # &nbsp;
+
+  # client side javascript
+  # MVC framework
+  # with
+  # a Router
+  # &nbsp;
+]
+
+???
+# * emberjs is a open-source application framework to create single-page apps based in the MVC pattern
+
+---
+name: emberjs
+class: center, emberjs
+
+.left-column[
+## ember.js
+### - Model
+]
+
+.right-column[
+  # &nbsp;
+  # &nbsp;
+  # * represent persisted state on a server
+]
+
+???
+# * ... or locally
+
+---
+name: emberjs
+class: center, emberjs
+
+.left-column[
+## ember.js
+### - Model
+### - View
+]
+
+.right-column[
+  ## &nbsp;
+  ## * render template and manage lifecyle
+  ## &nbsp;
+  ## * handle DOM events
+  ## (click, drag, ...)
+]
+
+---
+class: center, emberjs
+
+.left-column[
+## ember.js
+### - Model
+### - View
+### - Controller
+]
+
+.right-column[
+  ### &nbsp;
+  ### * decorators for your models
+  ### * default context in your template
+  ### ```{{ length }}```
+  ### * long lived objects that can store application state
+  ### * ```ObjectController, ArrayController```
+]
+
+---
+name: emberjs
+class: center, emberjs
+
+.left-column[
+## ember.js
+### - Model
+### - View
+### - Controller
+### - Router
+]
+
+.right-column[
+  ## &nbsp;
+  ## * a state machine
+  ## * has DSL like sinatra or rails
+  ## * serializes/deserializes URL to models
+]
+
+???
+# a route represents the state of the app
+
+---
+name: inspector
+class: emberjs
+
+# Ember Inspector:
+
+# * [for Google Chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi?hl=en)
+# * [for Firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/?src=api)
+
+---
+name: user story
+class: whoami
+
+# Notes.app
+## * see list of existing notes
+
+???
+# * runs local, no storage, each refresh deletes new objects
+---
+name: code
+class: code
+
+# create emberjs app and app's template
+
+in app.js:
+```javascript
+var App = Ember.Application.create();
+```
+
+# &nbsp;
+
+in index.html
+```html
+<script type="text/x-handlebars"> {{outlet}} </script>
+```
+
+---
+class: code
+
+# creates notes template and route
+
+in index.html:
+```html
+<script type="text/x-handlebars" data-template-name="notes">
+  <h5>Notes</h5>
+</script>
+```
+
+# &nbsp;
+
+in app.js:
+```javascript
+App.Router.map(function() {
+  this.resource('notes');
+});
+```
+
+---
+class: code
+
+# defines notes model
+
+in app.js:
+```javascript
+App.Note = DS.Model.extend({
+  title: DS.attr( 'string' ),
+  body: DS.attr( 'string' )
+});
+```
+
+---
+class: code
+
+# sets app adapter to fixtures adapter and creates some fixtures
+
+in app.js:
+```javascript
+App.ApplicationAdapter = DS.FixtureAdapter;
+
+App.Note.FIXTURES = [
+  { id: 1, title: 'quote', body: 'ah! ah!' },
+  { id: 2, title: 'idea', body: 'do an ember.swift' }
+];
+```
+
+---
+class: code
+
+# sets model in notes route
+
+in app.js:
+```javascript
+App.NotesRoute = Ember.Route.extend({
+  model: function() {
+    return this.store.find('note');
+  }
+});
+```
+
+???
+# * finding all records of type 'note'
+
+---
+class: code
+
+# displays list of notes
+
+in index.html:
+```html
+<script type="text/x-handlebars" data-template-name="notes">
+  <div class="row panel">
+    <h4>Notes</h4>
+  </div>
+  <div class="row panel callout">
+    <ol>
+      {{#each}}
+        <li>{{title}}</li>
+      {{/each}}
+    </ol>
+  </div>
+</script>
+```
+
+???
+# * going back to our notes template
+
+---
+name: user story
+class: whoami
+
+# Notes.app
+## * see list of existing notes
+## * read existing note
+
+---
+class: code
+
+# adds a link to each note
+
+in index.html:
+```html
+<script type="text/x-handlebars" data-template-name="notes">
+  <div class="row panel">
+    <h4>Notes</h4>
+  </div>
+  <div class="row panel callout">
+    <ol>
+      {{#each}}
+*       {{link-to title "note" this}}
+      {{/each}}
+    </ol>
+  </div>
+</script>
+```
+
+---
+class: code
+
+# creates a nested note route
+
+in app.js:
+```javascript
+this.resource('notes', function() {
+  this.resource('note', { path: '/:note_id' })
+});
+```
+
+---
+class: code
+
+# creates a note template
+
+in index.html:
+```html
+<script type="text/x-handlebars" data-template-name="note">
+  <h4 class="subheader"> {{title}} </h4>
+  <blockquote>
+    <p> {{body}} </p>
+  </blockquote>
+</script>
+```
+
+---
+class: code
+
+# displays the nested note template
+
+in index.html
+```html
+<script type="text/x-handlebars" data-template-name="notes">
+    <div class="row panel">
+      <h4>Notes</h4>
+    </div>
+    <div class="row">
+      <div class="medium-3 columns panel">
+        <ol>
+          {{#each}}
+            <li>
+              {{link-to title "note" this}}
+            </li>
+          {{/each}}
+        </ol>
+        {{link-to "new" "notes.new" class="tiny radius button"}}
+      </div>
+*      <div class="medium-8 columns panel callout">
+*        {{outlet}}
+*      </div>
+    </div>
+  </script>
+```
+
+---
+class: code
+
+# changes current note to bold
+
+```css
+.active {
+  font-weight: bold;
+}
+```
+
+---
+name: user story
+class: whoami
+
+# Notes.app
+## * see list of existing notes
+## * read existing note
+## * create a note
+
+---
+class: code
+
+# adds fields to create notes
+
+in app.js:
+```javascript
+App.Router.map(function() {
+  this.resource('notes', function() {
+    this.resource('note', { path: '/:note_id' }),
+*    this.route('new')
+  });
+});
+```
+### &nbsp;
+
+in index.html:
+```html
+<script type="text/x-handlebars" data-template-name="notes/new">
+  title: {{view Ember.TextField valueBinding="newTitle"}}
+  {{view Ember.TextArea valueBinding="newBody"}}
+  <button class="tiny radius" {{action "createNote"}}>create</button>
+</script>
+```
+
+---
+class: code
+
+# implements the create action
+
+in app.js:
+```javascript
+App.NotesNewController = Ember.ObjectController.extend({
+  actions: {
+    createNote: function () {
+      var title = this.get("newTitle");
+      var body = this.get("newBody");
+
+      var note = this.store.createRecord('note', {
+        title: title,
+        body: body
+      });
+
+      note.save();
+    }
+  }
+});
+```
+
+---
+name: user story
+class: whoami
+
+# Notes.app
+## * see list of existing notes
+## * read existing note
+## * create a note
+## * edit a note
+
+---
+class: code
+
+# implements editing
+
+in index.html:
+```html
+{{#if isEditing}}
+  {{view Ember.TextField valueBinding="title"}}
+  {{view Ember.TextArea valueBinding="body"}}
+  {{displayRemaining bodyLength}}
+  <br>
+  <button class="tiny radius" {{action "updateNote"}}>update</button>
+{{else}}
+  <h4 class="subheader"> {{title}} </h4>
+  <blockquote>
+    <p> {{body}} </p>
+  </blockquote>
+  <button class="tiny radius" {{action "editNote"}}>edit</button>
+{{/if}}
+```
+
+???
+# show value binding
+
+---
+class: code
+
+# implements editing
+
+in app.js:
+```javascript
+App.NoteController = Ember.ObjectController.extend({
+  actions: {
+    editNote: function() {
+      this.set('isEditing', true);
+    },
+    updateNote: function () {
+      this.set('isEditing', false);
+      this.get('model').save();
+    }
+  }
+});
+```
+
+---
+class: code
+
+# adds display of remaining characters
+
+in index.html:
+```html
+<h4 class="subheader"> {{title}} </h4>
+{{#if isEditing}}
+  {{view Ember.TextArea valueBinding="body"}}
+*  {{displayRemaining bodyRemaining}}
+  <br>
+  <button class="tiny radius" {{action "updateNote"}}>update</button>
+{{else}}
+```
+
+in app.js:
+```javascript
+App.NoteController = Ember.ObjectController.extend({
+*  bodyRemaining: function() {
+*    var body = this.get('content').get('body');
+*    return (140 - body.length);
+*  }.property('model.body'),
+
+  actions: {
+```
+
+---
+class: code
+
+# adds display of remaining characters
+
+in app.js:
+```javascript
+Ember.Handlebars.registerBoundHelper('displayRemaining', function(value) {
+  var cssClass = 'secondary';
+  if (value < 0) {
+    cssClass = 'alert';
+  }
+  return new Handlebars.SafeString('<span class="radius ' + cssClass + ' label">' + value + '</span>');
+});
+```
+
+---
+class: center, middle, questions
+
+# Questions?
+
+    </textarea>
+    <script src="remark.min.js" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>

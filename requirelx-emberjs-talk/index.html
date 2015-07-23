@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Notes</title>
+  <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="foundation.min.css">
+  <script type="text/javascript" src="foundation.min.js"></script>
+  <script src="http://builds.handlebarsjs.com.s3.amazonaws.com/handlebars-v1.3.0.js"></script>
+  <script src="http://builds.emberjs.com/tags/v1.5.1/ember.js"></script>
+  <script src="http://builds.emberjs.com/beta/ember-data.js"></script>
+  <script src="app.js"></script>
+</head>
+<body>
+  <style type="text/css">
+    .active {
+      font-weight: bold;
+    }
+  </style>
+  <script type="text/x-handlebars">
+    {{outlet}}
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="notes">
+    <div class="row panel">
+      <h4>Notes</h4>
+    </div>
+    <div class="row">
+      <div class="medium-3 columns panel">
+        <ol>
+          {{#each}}
+            <li>
+              {{link-to title "note" this}}
+            </li>
+          {{/each}}
+        </ol>
+        {{link-to "new" "notes.new" class="tiny radius button"}}
+      </div>
+      <div class="medium-8 columns panel callout">
+        {{outlet}}
+      </div>
+    </div>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="note">
+    {{#if isEditing}}
+      {{view Ember.TextField valueBinding="title"}}
+      {{view Ember.TextArea valueBinding="body"}}
+      {{displayRemaining bodyRemaining}}
+      <br>
+      <button class="tiny radius" {{action "updateNote"}}>update</button>
+    {{else}}
+      <h4 class="subheader"> {{title}} </h4>
+      <blockquote>
+        <p> {{body}} </p>
+      </blockquote>
+      <button class="tiny radius" {{action "editNote"}}>edit</button>
+    {{/if}}
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="notes/new">
+    title: {{view Ember.TextField valueBinding="newTitle"}}
+    {{view Ember.TextArea valueBinding="newBody"}}
+    <button class="tiny radius" {{action "createNote"}}>create</button>
+  </script>
+</body>
+</html>
